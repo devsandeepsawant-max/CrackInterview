@@ -3,13 +3,15 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: InterviewIQ demo coaching API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: coaching
+    description: InterviewIQ career coaching workflows
 paths:
   /healthz:
     get:
@@ -24,6 +26,126 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /interviewiq/dashboard:
+    get:
+      operationId: getInterviewIqDashboard
+      tags: [coaching]
+      summary: Get the candidate dashboard
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dashboard"
+  /interviewiq/analyze:
+    post:
+      operationId: analyzeJobMatch
+      tags: [coaching]
+      summary: Compare resume evidence with a job description
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnalysisInput"
+      responses:
+        "200":
+          description: Job match analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobAnalysis"
+  /interviewiq/interviews:
+    post:
+      operationId: createInterviewSession
+      tags: [coaching]
+      summary: Start a practice interview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InterviewInput"
+      responses:
+        "201":
+          description: New interview session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InterviewSession"
+  /interviewiq/interviews/{sessionId}/answers:
+    post:
+      operationId: evaluateInterviewAnswer
+      tags: [coaching]
+      summary: Evaluate an interview answer
+      parameters:
+        - name: sessionId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnswerInput"
+      responses:
+        "200":
+          description: Explainable answer evaluation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnswerEvaluation"
+  /interviewiq/roadmap:
+    get:
+      operationId: getRoadmap
+      tags: [coaching]
+      summary: Get preparation tasks
+      responses:
+        "200":
+          description: Personalized preparation roadmap
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Roadmap"
+  /interviewiq/roadmap/tasks/{taskId}:
+    patch:
+      operationId: updateRoadmapTask
+      tags: [coaching]
+      summary: Update preparation task progress
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskUpdate"
+      responses:
+        "200":
+          description: Updated task
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LearningTask"
+  /interviewiq/passport:
+    get:
+      operationId: getReadinessPassport
+      tags: [coaching]
+      summary: Get the candidate readiness passport
+      responses:
+        "200":
+          description: Readiness summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Passport"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +155,180 @@ components:
           type: string
       required:
         - status
+    Dashboard:
+      type: object
+      required: [demoMode, candidateName, targetRole, latestScore, completedTasks, totalTasks, strengths, priorities, recentActivity]
+      properties:
+        demoMode: { type: boolean }
+        candidateName: { type: string }
+        targetRole: { type: string }
+        latestScore: { type: integer }
+        completedTasks: { type: integer }
+        totalTasks: { type: integer }
+        strengths:
+          type: array
+          items: { type: string }
+        priorities:
+          type: array
+          items: { type: string }
+        recentActivity:
+          type: array
+          items: { type: string }
+    AnalysisInput:
+      type: object
+      required: [resumeText, jobDescription, targetRole, company, experienceLevel]
+      properties:
+        resumeText: { type: string, minLength: 20, maxLength: 20000 }
+        jobDescription: { type: string, minLength: 40, maxLength: 12000 }
+        targetRole: { type: string, minLength: 2, maxLength: 120 }
+        company: { type: string, maxLength: 120 }
+        experienceLevel: { type: string, enum: [entry, mid, senior, career-change] }
+    Requirement:
+      type: object
+      required: [skill, importance, status, evidence, explanation]
+      properties:
+        skill: { type: string }
+        importance: { type: string, enum: [required, preferred] }
+        status: { type: string, enum: [demonstrated, partial, not-evidenced, confirm] }
+        evidence: { type: string }
+        explanation: { type: string }
+    JobAnalysis:
+      type: object
+      required: [demoMode, id, targetRole, company, matchScore, scoreExplanation, requirements, interviewTopics, preparationPriorities]
+      properties:
+        demoMode: { type: boolean }
+        id: { type: string }
+        targetRole: { type: string }
+        company: { type: string }
+        matchScore: { type: integer, minimum: 0, maximum: 100 }
+        scoreExplanation: { type: string }
+        requirements:
+          type: array
+          items: { $ref: "#/components/schemas/Requirement" }
+        interviewTopics:
+          type: array
+          items: { type: string }
+        preparationPriorities:
+          type: array
+          items: { type: string }
+    InterviewInput:
+      type: object
+      required: [targetRole, interviewType, difficulty, questionCount, resumeText, jobDescription]
+      properties:
+        targetRole: { type: string }
+        interviewType: { type: string, enum: [hr, behavioral, technical, managerial, customer-facing] }
+        difficulty: { type: string, enum: [beginner, intermediate, advanced] }
+        questionCount: { type: integer, minimum: 1, maximum: 8 }
+        resumeText: { type: string, maxLength: 20000 }
+        jobDescription: { type: string, maxLength: 12000 }
+    InterviewQuestion:
+      type: object
+      required: [id, prompt, competency, followUp]
+      properties:
+        id: { type: string }
+        prompt: { type: string }
+        competency: { type: string }
+        followUp: { type: string }
+    InterviewSession:
+      type: object
+      required: [demoMode, id, targetRole, interviewType, difficulty, questions, currentIndex]
+      properties:
+        demoMode: { type: boolean }
+        id: { type: string }
+        targetRole: { type: string }
+        interviewType: { type: string }
+        difficulty: { type: string }
+        questions:
+          type: array
+          items: { $ref: "#/components/schemas/InterviewQuestion" }
+        currentIndex: { type: integer }
+    AnswerInput:
+      type: object
+      required: [question, answer, interviewType, targetRole]
+      properties:
+        question: { type: string }
+        answer: { type: string, minLength: 8, maxLength: 5000 }
+        interviewType: { type: string }
+        targetRole: { type: string }
+        resumeText: { type: string }
+    RubricScore:
+      type: object
+      required: [label, score, max, explanation]
+      properties:
+        label: { type: string }
+        score: { type: integer }
+        max: { type: integer }
+        explanation: { type: string }
+    AnswerEvaluation:
+      type: object
+      required: [demoMode, overallScore, rubric, strengths, missingDetails, unsupportedClaims, suggestion, sampleAnswer, followUp, starGuidance]
+      properties:
+        demoMode: { type: boolean }
+        overallScore: { type: integer, minimum: 0, maximum: 100 }
+        rubric:
+          type: array
+          items: { $ref: "#/components/schemas/RubricScore" }
+        strengths:
+          type: array
+          items: { type: string }
+        missingDetails:
+          type: array
+          items: { type: string }
+        unsupportedClaims:
+          type: array
+          items: { type: string }
+        suggestion: { type: string }
+        sampleAnswer: { type: string }
+        followUp: { type: string }
+        starGuidance:
+          type: array
+          items: { type: string }
+    LearningTask:
+      type: object
+      required: [id, day, title, competency, why, lesson, exercise, example, completed, knowledgeCheck]
+      properties:
+        id: { type: string }
+        day: { type: integer, minimum: 1, maximum: 7 }
+        title: { type: string }
+        competency: { type: string }
+        why: { type: string }
+        lesson: { type: string }
+        exercise: { type: string }
+        example: { type: string }
+        completed: { type: boolean }
+        knowledgeCheck: { type: string }
+    Roadmap:
+      type: object
+      required: [demoMode, tasks]
+      properties:
+        demoMode: { type: boolean }
+        tasks:
+          type: array
+          items: { $ref: "#/components/schemas/LearningTask" }
+    TaskUpdate:
+      type: object
+      required: [completed]
+      properties:
+        completed: { type: boolean }
+    Passport:
+      type: object
+      required: [demoMode, candidateName, targetRole, readinessScore, scoreDisclaimer, demonstratedSkills, sessionsCompleted, competencyScores, improvement, priorities, completedTasks]
+      properties:
+        demoMode: { type: boolean }
+        candidateName: { type: string }
+        targetRole: { type: string }
+        readinessScore: { type: integer }
+        scoreDisclaimer: { type: string }
+        demonstratedSkills:
+          type: array
+          items: { type: string }
+        sessionsCompleted: { type: integer }
+        competencyScores:
+          type: array
+          items: { $ref: "#/components/schemas/RubricScore" }
+        improvement: { type: integer }
+        priorities:
+          type: array
+          items: { type: string }
+        completedTasks: { type: integer }
 
