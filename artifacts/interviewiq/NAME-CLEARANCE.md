@@ -13,12 +13,16 @@
 
 If the project owner controls both, the findings do not by themselves require a new brand. If either belongs to an unrelated party and cannot be acquired or licensed, the combination of an unavailable exact-match `.com` and an existing exact-name YouTube channel is a meaningful launch and discoverability risk. In that case, consider a different name before investing further.
 
-The product defaults to English and also offers Spanish, French, and German. No target launch countries were stated, so this pass focused on the U.S. and UK public trademark registries and English-language app/social searches. It does not establish availability in the EU, Canada, or other markets.
+The product defaults to English and also offers Spanish, French, and German. The original review had no stated launch countries, so it focused on the U.S. and UK public trademark registries and English-language app/social searches. On October 30, 2026, the project owner specified **India** as the target market for the name check. The India check below remains incomplete; the U.S./UK findings do not establish availability in India or other markets.
 
 ## Findings
 
 ### Trademarks
 
+- **India — target market confirmed October 30, 2026:** The official IP India search directory links to the public trademark search and AI/ML search. The public search loaded a CAPTCHA and email/mobile OTP login rather than searchable registry results. No authenticated search was completed, so no Indian trademark result count or clearance is claimed. Public web searches for `EvidenceArc` and `Evidence Arc` with India/career/trademark terms returned no useful exact-name matches; that is not a substitute for registry searches.
+  - [IP India official search directory](https://ipindia.gov.in/trade-marks-before-you-apply-search-existing-trademarks)
+  - [IP India public trademark search](https://tmrsearch.ipindia.gov.in/tmrpublicsearch/)
+  - **Remaining check:** An authorized person or Indian trademark professional should search exact, spaced, contains, and phonetically similar wording and review relevant goods/services. Classes likely to warrant review include 41 (education/coaching), 42 (software services), and 9 if downloadable software is offered; the final scope depends on the actual offering. Do not treat EvidenceArc as cleared for India.
 - **United States — USPTO:** The official Trademark Search returned 0 results for `EVIDENCEARC` and for the spaced wording `EVIDENCE ARC`. These are exact-wording knockout checks, not a comprehensive search for similar marks, common-law use, related classes, or logos.
   - [USPTO search: EVIDENCEARC](https://tmsearch.uspto.gov/search/search-results?query=EVIDENCEARC)
   - [USPTO search: “EVIDENCE ARC”](https://tmsearch.uspto.gov/search/search-results?query=%22EVIDENCE%20ARC%22)

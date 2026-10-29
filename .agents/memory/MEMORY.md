@@ -1,0 +1,1 @@
+- [Target market](target-market.md) — India is the user-specified market for the product's name-availability check.
