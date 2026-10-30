@@ -1,6 +1,6 @@
-# EvidenceArc
+# CrackIn
 
-EvidenceArc helps candidates compare resume evidence with a target role, practice interview answers, and plan focused preparation.
+CrackIn helps candidates compare resume evidence with a target role, practice interview answers, and plan focused preparation.
 
 ## Run & operate
 
@@ -10,7 +10,7 @@ EvidenceArc helps candidates compare resume evidence with a target role, practic
 - `PORT=26250 BASE_PATH=/ pnpm --filter @workspace/interviewiq run build` — build the root-mounted web artifact
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas after changing the OpenAPI contract
 
-The EvidenceArc web app and API are managed by the existing Replit workflows.
+The CrackIn web app and API are managed by the existing Replit workflows.
 
 ## Stack
 
@@ -22,7 +22,7 @@ The EvidenceArc web app and API are managed by the existing Replit workflows.
 
 ## Where things live
 
-- `artifacts/interviewiq/` — EvidenceArc web app and browser-local product state
+- `artifacts/interviewiq/` — CrackIn web app and browser-local product state
 - `artifacts/api-server/src/routes/interviewiq.ts` — demo coaching API routes
 - `artifacts/api-server/src/lib/interviewiq-demo.ts` — deterministic demo matching, interview questions, answer rubric, and roadmap
 - `lib/api-spec/openapi.yaml` — API contract source of truth
@@ -30,7 +30,7 @@ The EvidenceArc web app and API are managed by the existing Replit workflows.
 
 ## Architecture decisions
 
-- EvidenceArc is an explicitly labeled demo. Matching and answer feedback are deterministic rules, not live AI or verified hiring assessments.
+- CrackIn is an explicitly labeled demo. Matching and answer feedback are deterministic rules, not live AI or verified hiring assessments.
 - Profile, resume text, practice history, and task progress are kept in browser local storage. Analysis and interview requests send the relevant resume or answer text to a stateless demo endpoint; the API does not save it.
 - Sign-in and account screens are previews only. The app does not create authenticated accounts or provide cross-device persistence.
 - Resume files are extracted in the browser. Voice controls use browser speech features when available, with text entry as the fallback.
@@ -52,8 +52,10 @@ No project-specific preferences have been recorded.
 - Do not present simulated scores or sample content as live AI output, verified skills, or predictions of hiring outcomes.
 - Keep the demo and storage disclosures visible when adding flows that submit resume or answer text.
 - Keep the existing `interviewiq:` browser-storage namespace stable across public brand changes so saved progress is retained.
+- The user selected CrackIn to match the uploaded hackathon implementation pack. The earlier EvidenceArc name-clearance report is historical and does not establish clearance for CrackIn.
 - Regenerate the OpenAPI client and schemas after contract changes; do not hand-edit generated files.
 
 ## Pointers
 
 - See the `pnpm-workspace` skill for workspace structure and TypeScript setup.
+- See `docs/HACKATHON-COMPLIANCE.md` for the comparison against the user's implementation pack, including the authoritative team/workflow update in section 14.

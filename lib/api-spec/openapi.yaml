@@ -3,7 +3,7 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: EvidenceArc demo coaching API
+  description: CrackIn demo coaching API
 servers:
   - url: /api
     description: Base API path
@@ -11,7 +11,7 @@ tags:
   - name: health
     description: Health operations
   - name: coaching
-    description: EvidenceArc career coaching workflows
+    description: CrackIn career coaching workflows
 paths:
   /healthz:
     get:

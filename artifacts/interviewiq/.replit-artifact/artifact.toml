@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "EvidenceArc"
+title = "CrackIn"
 description = "An evidence-first career coach that helps candidates compare resume examples with a target role, practice interview answers, and plan focused preparation."
 version = "1.0.0"
 id = "artifacts/interviewiq"
